@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Huwaida1990/tinyapp/issues"
   },
-  "homepage": "https://github.com/Huwaida1990/tinyapp#readme"
+  "homepage": "https://github.com/Huwaida1990/tinyapp#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
 }
