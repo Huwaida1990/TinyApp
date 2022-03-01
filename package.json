@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Huwaida1990/tinyapp#readme",
   "dependencies": {
+    "ejs": "^3.1.6",
     "express": "^4.17.3"
   }
 }
