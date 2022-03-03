@@ -39,12 +39,12 @@ app.post('/urls',(req,res)=>{
   res.send('ok')
 })
 
-app.get("/hello", (req, res) => {
-  res.send("<html><body>Hello <b>World</b></body></html>\n");
-});
-app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}!`);
-});
+// delete url
+app.post('/urls/:shortURL/delete',(req,res)=>{
+  const shortURL = req.params.shortURL;
+  delete urlDatabase[shortURL];
+  res.redirect('/urls')
+})
 
 app.get("/u/:shortURL", (req, res) => {
   const shorturl = req.params.shortURL;
@@ -55,3 +55,9 @@ app.get("/u/:shortURL", (req, res) => {
 function generateShortURL() {
   return Math.random().toString(36).substr(2, 6);
 }
+
+
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}!`);
+});
+
