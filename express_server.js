@@ -31,11 +31,10 @@ app.get("/urls/:shortURL", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
+// add url
 app.post('/urls',(req,res)=>{
   const longURL = req.body.longURL;
-
   urlDatabase[generateShortURL()] = longURL;
-
   res.send('ok')
 })
 
@@ -43,6 +42,14 @@ app.post('/urls',(req,res)=>{
 app.post('/urls/:shortURL/delete',(req,res)=>{
   const shortURL = req.params.shortURL;
   delete urlDatabase[shortURL];
+  res.redirect('/urls')
+})
+
+// update url
+app.post('/urls/:id',(req,res)=>{
+  const shortURL = req.params.id;
+  const newUrl = req.body.newUrl;
+  urlDatabase[shortURL] = newUrl;
   res.redirect('/urls')
 })
 
