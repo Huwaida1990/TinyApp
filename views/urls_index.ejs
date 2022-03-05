@@ -11,6 +11,7 @@
 <body>
   <%- include('partials/_header') %>
   <main style="margin: 1em;">
+<<<<<<< HEAD
     <% if (user) { %>
       <h3>My URLs</h3>
       <table class="table">
@@ -20,6 +21,33 @@
             <th scope="col">Long URL</th>
             <th scope="col">Edit</th>
             <th scope="col">Delete</th>
+=======
+    <h3>My URLs</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Short URL</th>
+          <th scope="col">Long URL</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(let url in urls) { %>
+          <tr>
+            <td> <a href= <%="/urls/"+url %> > <%= url %> </a></td>
+            <td><%= urls[url] %></td>
+            <td>
+              <form method="GET" action=<%= "/urls/"+ url  %>>
+                <button class="btn btn-outline-primary" type="submit">Edit</button>
+              </form>
+            </td>
+            <td>
+              <form method="POST" action=<%= "/urls/"+ url + "/delete" %>>
+                <button class="btn btn-outline-danger" type="submit">Delete</button>
+              </form>
+            </td>
+>>>>>>> main
           </tr>
         </thead>
         <tbody>
