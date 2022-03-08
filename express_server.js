@@ -88,6 +88,7 @@ app.post("/register", (req, res) => {
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 10),
   };
+  
   if (!newUser.email || !newUser.password) {
     res.status(400);
     res.send("Invalid Email or password");
@@ -105,6 +106,7 @@ app.post("/register", (req, res) => {
   req.session.user_id = newUser['id'];
   res.redirect("/urls");
 });
+
 //urls
 app.get("/urls/new", (req, res) => {
   const templateVars = {
