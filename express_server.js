@@ -35,6 +35,7 @@ const urlDatabase = {
   b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
   i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" },
 };
+
 const defTemplateVars = {
   user: null,
 };
@@ -60,7 +61,7 @@ app.post("/login", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  if (req.session?.user_id) {
+  if (req.session.user_id) {
     res.redirect("/urls");
   } else {
     res.render("login", defTemplateVars);
@@ -75,14 +76,18 @@ app.post("/logout", (req, res) => {
 
 //register
 app.get("/register", (req, res) => {
-  const templateVars = {
-    user: users[req.session?.user_id],
-  };
-  res.render("register", templateVars);
+  // const templateVars = {
+  //   user: users[req.session?.user_id],
+  // };
+  // res.render("register", defTemplateVars);
+  if (req.session.user_id) {
+    res.redirect("/urls");
+  } else {
+    res.render("register", defTemplateVars);
+  }
 });
 
 app.post("/register", (req, res) => {
-
   const newUser = {
     id: generateRandomString(),
     email: req.body.email,
@@ -102,10 +107,10 @@ app.post("/register", (req, res) => {
     return;
   }
   users[newUser.id] = newUser;
-  console.log(newUser);
   req.session.user_id = newUser['id'];
   res.redirect("/urls");
 });
+
 
 //urls
 app.get("/urls/new", (req, res) => {
@@ -122,7 +127,6 @@ app.get("/urls/new", (req, res) => {
 
 app.get("/urls/:id", (req, res) => {
   const userID = req.session.user_id;
-  console.log("userID:", userID);
   if (!userID) {
     res.status(400).send("You oyur are not loged in");
     return;
@@ -157,10 +161,10 @@ app.post("/urls", (req, res) => {
 });
 
 app.get("/urls", (req, res) => {
-  const userURL = urlsForUser(req.session?.user_id, urlDatabase);
+  const userURL = urlsForUser(req.session.user_id, urlDatabase);
   const templateVars = {
     urls: userURL,
-    user: users[req.session?.user_id],
+    user: users[req.session.user_id],
   };
   res.render("urls_index", templateVars);
 });
@@ -174,6 +178,7 @@ app.get("/", (req, res) => {
   if (templateVars.user) {
     res.redirect("/urls");
   } else {
+    req.session.user_id = null;
     res.redirect("/login");
   }
 });
@@ -207,8 +212,13 @@ app.post("/urls/:shortURL", (req, res) => {
 
 //delete
 app.post("/urls/:shortURL/delete", (req, res) => {
-  delete urlDatabase[req.params.shortURL];
-  res.redirect("/urls");
+  if(req.session.user_id){
+    delete urlDatabase[req.params.shortURL];
+    res.redirect("/urls");
+  }else{
+    res.send('user non logged')
+  }
+
 });
 
 //edit
